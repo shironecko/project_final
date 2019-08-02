@@ -11,6 +11,15 @@ using RazorEngine;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis;
 
+const string META_CODE_EXTENSION = ".csx";
+const string TEMPLATE_EXTENSION = ".t.cpp";
+const string GEN_CODE_EXTENSION = ".g.cpp";
+const string GEN_HEADER_EXTENSION = ".g.h";
+
+static string ExtensionMask(string extension) {
+    return $"*{extension}";
+}
+
 public class RazorInjectionHack {
     public static void Install() {
         MethodInfo methodToReplace = typeof(RoslynCompilerServiceBase).GetMethod("IsMono", BindingFlags.Instance | BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Public);
@@ -98,7 +107,7 @@ static Assembly CompileFilesIntoAssembly(string directory, string searchMask) {
     }
 }
 
-Assembly assembly = CompileFilesIntoAssembly("../src/", "*.csx");
+Assembly assembly = CompileFilesIntoAssembly("../src/", ExtensionMask(META_CODE_EXTENSION));
 Debug.Assert(assembly != null);
 
 Console.WriteLine("Exported types:");
@@ -106,13 +115,52 @@ foreach (Type type in assembly.GetExportedTypes()) {
     Console.WriteLine(type);
 }
 
-string template = File.ReadAllText("../src/gen/templates/test.t.cpp");
-var config = new TemplateServiceConfiguration();
-config.CompilerServiceFactory = new RazorEngine.Roslyn.RoslynCompilerServiceFactory();
-config.Language = Language.CSharp;
-config.EncodedStringFactory = new RawStringFactory();
-var service = RazorEngineService.Create(config);
-Engine.Razor = service;
-var result =
-	Engine.Razor.RunCompile(template, "templateKey", null, new { Types = assembly.GetExportedTypes() });
-Console.WriteLine(result);
+static void GenerateCodeFromTemplates(Assembly assembly, string templatesPath, string outPath) {
+    if (Directory.Exists(outPath)) {
+        var oldGeneratedFiles = Directory.GetFiles(outPath, ExtensionMask(GEN_CODE_EXTENSION), SearchOption.AllDirectories).ToList();
+        oldGeneratedFiles.AddRange(Directory.GetFiles(outPath, ExtensionMask(GEN_HEADER_EXTENSION), SearchOption.AllDirectories));
+        Console.WriteLine("Removing old generated files:");
+        foreach (string path in oldGeneratedFiles) {
+            Console.WriteLine(path);
+            File.Delete(path);
+        }
+    } else {
+        Directory.CreateDirectory(outPath);
+    }
+
+    {
+        var templateConfig = new TemplateServiceConfiguration {
+            CompilerServiceFactory = new RazorEngine.Roslyn.RoslynCompilerServiceFactory(),
+            Language = Language.CSharp,
+            EncodedStringFactory = new RawStringFactory()
+        };
+        var razorEngine = RazorEngineService.Create(templateConfig);
+        Engine.Razor = razorEngine;
+    }
+
+    var templates =
+        (from path in Directory.GetFiles(templatesPath, ExtensionMask(TEMPLATE_EXTENSION), SearchOption.AllDirectories)
+        select new { path, relativePath = Path.GetRelativePath(templatesPath, path), content = File.ReadAllText(path) }).ToList();
+    
+    var templateModel = new { Types = assembly.GetExportedTypes() };
+    System.Console.WriteLine("Templates:");
+    foreach (var template in templates) {
+        System.Console.WriteLine($"In path:  {template.path}");
+        string templateName = Path.GetFileName(template.path);
+        Debug.Assert(templateName.EndsWith(TEMPLATE_EXTENSION));
+        templateName = string.Concat(templateName.Take(templateName.Length - TEMPLATE_EXTENSION.Length));
+        string templateOutPath = Path.Combine(
+            outPath, 
+            Path.Combine(Path.GetDirectoryName(template.relativePath), templateName + GEN_CODE_EXTENSION)
+        );
+        System.Console.WriteLine($"Out path: {templateOutPath}");
+
+        var templateResult =
+            Engine.Razor.RunCompile(template.content, template.path, null, templateModel);
+
+        Directory.CreateDirectory(Path.GetDirectoryName(templateOutPath));
+        File.WriteAllText(templateOutPath, templateResult);
+    }
+}
+
+GenerateCodeFromTemplates(assembly, "../src/gen/templates/", "../src/gen/out/");
