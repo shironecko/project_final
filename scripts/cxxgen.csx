@@ -1,5 +1,7 @@
+#!/usr/bin/env dotnet script
 #r "nuget: Microsoft.CodeAnalysis.CSharp, 3.2.0"
 #r "nuget: RazorEngine.NetCore, 2.2.2"
+#r "nuget: CommandLineParser, 2.6.0"
 
 using System.Runtime.CompilerServices;
 using System.Reflection;
@@ -10,6 +12,7 @@ using RazorEngine.Configuration;
 using RazorEngine;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis;
+using CommandLine;
 
 const string META_CODE_EXTENSION = ".csx";
 const string TEMPLATE_EXTENSION = ".t.cpp";
@@ -67,7 +70,6 @@ public class RazorInjectionHack {
     }
 
     private static bool IsMono_Injected() {
-        Console.WriteLine("Injected IsMono() function is called, returning 'true'!");
         return true;
     }
 }
@@ -107,7 +109,32 @@ static Assembly CompileFilesIntoAssembly(string directory, string searchMask) {
     }
 }
 
-Assembly assembly = CompileFilesIntoAssembly("../src/", ExtensionMask(META_CODE_EXTENSION));
+public class Options {
+    [Option("meta", Required = true, HelpText = "Directory containing C# files with data structures for which code should be generated.")]
+    public string MetaCodeDirectory { get; set; }
+
+    [Option("templates", Required = true, HelpText = "Directory containing Razor templates for code generation.")]
+    public string TemplatesDirectory { get; set; }
+
+    [Option("out", Required = true, HelpText = "Directory to write generated code into.")]
+    public string OutputDirectory { get; set; }
+
+    [Option(Default = ".csx", HelpText = "Extension of meta code C# files.")]
+    public string MetaCodeExtension { get; set; }
+
+    [Option(Default = "t", HelpText = "Prefix for which to look when searching template files. For example 't' prefix will match 'source.t.cpp' file.")]
+    public string TemplateExtensionPrefix { get; set; }
+
+    [Option(Default = "g", HelpText = "Template extension prefix will be substituted for this prefix when generating output files. For example 'source.t.cpp' template will produce 'source.g.cpp' output file with default settings.")]
+    public string GeneratedExtensionPrefix { get; set; }
+}
+
+Options options = null;
+Parser.Default.ParseArguments<Options>(Args)
+    .WithParsed(o => options = o)
+    .WithNotParsed(errors => Environment.Exit(-1));
+
+Assembly assembly = CompileFilesIntoAssembly(options.MetaCodeDirectory, ExtensionMask(options.MetaCodeExtension));
 Debug.Assert(assembly != null);
 
 Console.WriteLine("Exported types:");
@@ -163,4 +190,4 @@ static void GenerateCodeFromTemplates(Assembly assembly, string templatesPath, s
     }
 }
 
-GenerateCodeFromTemplates(assembly, "../src/gen/templates/", "../src/gen/out/");
+GenerateCodeFromTemplates(assembly, options.TemplatesDirectory, options.OutputDirectory);
