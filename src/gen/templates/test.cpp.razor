@@ -1,7 +1,7 @@
 #include <stdio.h>
 
 void printTypeNames() {
-    @foreach (Type type in @Model.Types) {
+    @foreach (Type type in @Model.GetExportedTypes()) {
         @:printf("@type.Name");
     }
 }

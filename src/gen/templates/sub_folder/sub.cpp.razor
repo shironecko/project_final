@@ -1,0 +1,7 @@
+#include <stdio.h>
+
+void printTypeNames() {
+    @foreach (Type type in @Model.GetExportedTypes()) {
+        @:printf("sub file @type.Name");
+    }
+}
