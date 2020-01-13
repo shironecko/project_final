@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>netcoreapp3.0</TargetFramework>
+        <PreserveCompilationContext>true</PreserveCompilationContext>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\MetaTypes\MetaTypes.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="RazorLight" Version="2.0.0-beta4" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Remove="Templates\Test.cpp.cshtml" />
+        <EmbeddedResource Include="Templates\Test.cpp.cshtml" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Remove="Templates\TestFolder\SubFolderTest.cpp.cshtml" />
+        <EmbeddedResource Include="Templates\TestFolder\SubFolderTest.cpp.cshtml" />
+    </ItemGroup>
+
+</Project>

@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeGenCLI", "CodeGenCLI\CodeGenCLI.csproj", "{3134D513-C227-47B6-A13A-AB513FBBFE87}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MetaTypes", "MetaTypes\MetaTypes.csproj", "{22F473CD-27FD-4692-80C2-CE101B9623EE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3134D513-C227-47B6-A13A-AB513FBBFE87}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3134D513-C227-47B6-A13A-AB513FBBFE87}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3134D513-C227-47B6-A13A-AB513FBBFE87}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3134D513-C227-47B6-A13A-AB513FBBFE87}.Release|Any CPU.Build.0 = Release|Any CPU
+		{22F473CD-27FD-4692-80C2-CE101B9623EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22F473CD-27FD-4692-80C2-CE101B9623EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22F473CD-27FD-4692-80C2-CE101B9623EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22F473CD-27FD-4692-80C2-CE101B9623EE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
