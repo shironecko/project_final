@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netcoreapp3.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Reference Include="Sharpmake, Version=0.9.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\build\tools\sharpmake\Sharpmake.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
+</Project>
