@@ -17,6 +17,8 @@
     <ItemGroup>
         <None Remove="Templates\Test.cpp.cshtml" />
         <EmbeddedResource Include="Templates\Test.cpp.cshtml" />
+        <None Remove="Templates\Types.h.cshtml" />
+        <EmbeddedResource Include="Templates\Types.h.cshtml" />
     </ItemGroup>
 
     <ItemGroup>

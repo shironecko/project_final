@@ -20,6 +20,7 @@
           <e p="TestFolder" t="Include">
             <e p="SubFolderTest.cpp.cshtml" t="Include" />
           </e>
+          <e p="Types.h.cshtml" t="Include" />
         </e>
       </e>
       <e p="MetaTypes" t="IncludeRecursive">

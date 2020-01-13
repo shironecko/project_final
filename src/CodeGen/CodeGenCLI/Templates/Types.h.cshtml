@@ -1,0 +1,50 @@
+@using System.Reflection
+@model System.Reflection.Assembly
+
+#include <stdint.h>
+
+typedef int8_t s8;
+typedef int16_t s16;
+typedef int32_t s32;
+typedef int64_t s64;
+
+typedef uint8_t u8;
+typedef uint16_t u16;
+typedef uint32_t u32;
+typedef uint64_t u64;
+
+typedef size_t usize;
+typedef uintptr_t uptr;
+
+typedef float f32;
+typedef double f64;
+
+@{
+    static string CsToCppType(Type type) => type switch {
+        _ when type == typeof(sbyte) => "s8",
+        _ when type == typeof(short) => "s16",
+        _ when type == typeof(int) => "s32",
+        _ when type == typeof(long) => "s64",
+        
+        _ when type == typeof(byte) => "u8",
+        _ when type == typeof(ushort) => "u16",
+        _ when type == typeof(uint) => "u32",
+        _ when type == typeof(ulong) => "u64",
+        
+        _ when type == typeof(float) => "f32",
+        _ when type == typeof(double) => "f64",
+        
+        _ => throw new NotImplementedException($"Type {type} is not supported!")
+        };
+}
+
+@foreach (Type type in @Model.GetExportedTypes()) {
+    @:struct @type.Name {
+
+    foreach (var member in type.GetFields(BindingFlags.Instance | BindingFlags.Public)) {
+        string cppMemberType = CsToCppType(member.FieldType);
+        @:@cppMemberType @member.Name;
+    }
+    
+    @:};
+}

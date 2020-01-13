@@ -19,7 +19,7 @@ namespace CodeGenCLI {
                 .UseMemoryCachingProvider()
                 .Build();
 
-            var templates = new[] { "Test.cpp", "TestFolder/SubFolderTest.cpp" };
+            var templates = new[] { "Types.h", "Test.cpp", "TestFolder/SubFolderTest.cpp" };
             foreach (string template in templates) {
                 Console.WriteLine($"Rendering template {template}...");
                 string namespacedTemplate = template.Replace('/', '.');
