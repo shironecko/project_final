@@ -16,14 +16,15 @@
 
     <ItemGroup>
         <None Remove="Templates\Test.cpp.cshtml" />
-        <EmbeddedResource Include="Templates\Test.cpp.cshtml" />
         <None Remove="Templates\Types.h.cshtml" />
-        <EmbeddedResource Include="Templates\Types.h.cshtml" />
     </ItemGroup>
 
     <ItemGroup>
         <None Remove="Templates\TestFolder\SubFolderTest.cpp.cshtml" />
-        <EmbeddedResource Include="Templates\TestFolder\SubFolderTest.cpp.cshtml" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Include="Templates\CodeGen\Types.h.cshtml" />
     </ItemGroup>
 
 </Project>

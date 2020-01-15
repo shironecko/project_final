@@ -15,11 +15,11 @@ namespace CodeGenCLI {
             Debug.Assert(typesAssembly != null);
 
             var razorEngine = new RazorLightEngineBuilder()
-                .UseEmbeddedResourcesProject(Assembly.GetExecutingAssembly(), "Templates")
+                .UseEmbeddedResourcesProject(Assembly.GetExecutingAssembly(), "Templates.CodeGen")
                 .UseMemoryCachingProvider()
                 .Build();
 
-            var templates = new[] { "Types.h", "Test.cpp", "TestFolder/SubFolderTest.cpp" };
+            var templates = new[] { "Types.h" };
             foreach (string template in templates) {
                 Console.WriteLine($"Rendering template {template}...");
                 string namespacedTemplate = template.Replace('/', '.');

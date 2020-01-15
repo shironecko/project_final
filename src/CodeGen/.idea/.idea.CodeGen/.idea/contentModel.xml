@@ -16,11 +16,9 @@
         </e>
         <e p="Program.cs" t="Include" />
         <e p="Templates" t="Include">
-          <e p="Test.cpp.cshtml" t="Include" />
-          <e p="TestFolder" t="Include">
-            <e p="SubFolderTest.cpp.cshtml" t="Include" />
+          <e p="CodeGen" t="Include">
+            <e p="Types.h.cshtml" t="Include" />
           </e>
-          <e p="Types.h.cshtml" t="Include" />
         </e>
       </e>
       <e p="MetaTypes" t="IncludeRecursive">

@@ -1,9 +1,0 @@
-@model System.Reflection.Assembly
-
-#include <stdio.h>
-
-void printTypeNames() {
-    @foreach (Type type in @Model.GetExportedTypes()) {
-        @:printf("@type.Name");
-    }
-}
