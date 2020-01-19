@@ -4,6 +4,8 @@
         <OutputType>Exe</OutputType>
         <TargetFramework>netcoreapp3.0</TargetFramework>
         <PreserveCompilationContext>true</PreserveCompilationContext>
+        <LangVersion>8.0</LangVersion>
+        <Nullable>enable</Nullable>
     </PropertyGroup>
 
     <ItemGroup>
@@ -25,6 +27,8 @@
 
     <ItemGroup>
       <EmbeddedResource Include="Templates\CodeGen\Types.h.cshtml" />
+      <None Remove="Templates\BuildSystems\Ninja\Project.ninja.cshtml" />
+      <EmbeddedResource Include="Templates\BuildSystems\Ninja\Project.ninja.cshtml" />
     </ItemGroup>
 
 </Project>

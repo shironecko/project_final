@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeGenCLI", "CodeGenCLI\Co
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MetaTypes", "MetaTypes\MetaTypes.csproj", "{22F473CD-27FD-4692-80C2-CE101B9623EE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{7DE55AE5-49D7-46DE-8495-D4D298329F8B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{22F473CD-27FD-4692-80C2-CE101B9623EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{22F473CD-27FD-4692-80C2-CE101B9623EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{22F473CD-27FD-4692-80C2-CE101B9623EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7DE55AE5-49D7-46DE-8495-D4D298329F8B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7DE55AE5-49D7-46DE-8495-D4D298329F8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7DE55AE5-49D7-46DE-8495-D4D298329F8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7DE55AE5-49D7-46DE-8495-D4D298329F8B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
