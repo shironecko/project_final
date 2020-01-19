@@ -1,4 +1,0 @@
-[submodule "tools/sharpmake"]
-	path = tools/sharpmake
-	url = https://github.com/kudaba/Sharpmake
-	branch = dotnetcore
