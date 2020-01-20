@@ -3,7 +3,10 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace CodeGenCLI.ProjectGeneration.Compilers {
     public class Clang : ICompiler {
+        public ICompiler.DepsOutputType DepsType => ICompiler.DepsOutputType.GCC;
         public string DefaultCompilerExecutable => "clang++";
+        public string ArgsInputPrefix => "-c";
+        public string ArgsOutputPrefix => "-o";
 
         public string GenericOptionToCommandLine(object option) =>
             option switch {

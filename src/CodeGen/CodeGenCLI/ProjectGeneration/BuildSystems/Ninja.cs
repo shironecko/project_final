@@ -22,13 +22,16 @@ namespace CodeGenCLI.ProjectGeneration.BuildSystems {
             IProject project,
             Configuration configuration,
             string compilerArgs,
-            List<string> sourceFiles) {
+            List<string> sourceFiles,
+            ICompiler compiler) {
             Project = project;
             Configuration = configuration;
             CompilerArgs = compilerArgs;
             SourceFiles = sourceFiles;
+            Compiler = compiler;
         }
 
+        public ICompiler Compiler { get; private set; }
         public IProject Project { get; private set; }
         public Configuration Configuration { get; private set; }
         public string CompilerArgs { get; private set; }
@@ -45,9 +48,9 @@ namespace CodeGenCLI.ProjectGeneration.BuildSystems {
             var compiler = new Clang();
             var sourceFiles = Directory.EnumerateFiles(cfg.SourceRoot)
                 .Where(file => cfg.SourceExtensions.Contains(Path.GetExtension(file)))
-                .Select(file => Path.GetRelativePath(cfg.SourceRoot, file))
+                .Select(file => Path.GetRelativePath(cfg.SourceRoot ?? "", file))
                 .ToList();
-            var templateModel = new TemplateModel(project, cfg, GenerateCompilerArgs(cfg, compiler), sourceFiles);
+            var templateModel = new TemplateModel(project, cfg, GenerateCompilerArgs(cfg, compiler), sourceFiles, compiler);
 
             string generatedProject = await razor.CompileRenderAsync("Ninja.Project.ninja.cshtml", templateModel);
             string outPath = Path.Combine(cfg.ProjectPath ?? "", $"{cfg.ProjectName ?? "untitled"}.ninja");
